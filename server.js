@@ -44,6 +44,7 @@ MongoClient.connect(url, (err, client) => {
     });
   });
 
+  // add inventory item to backend database
   router
     .route("/cash")
     .post(function(req, res) {
