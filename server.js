@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 // Set up port for server to listen on
 var port = process.env.PORT || 3004;
 
-var url = "mongodb://adhi012:password123@ds141796.mlab.com:41796/signup";
+var url = "mongodb://adhi:password123@ds141796.mlab.com:41796/signup";
 
 MongoClient.connect(url, (err, client) => {
   if (err) {
@@ -32,13 +32,13 @@ MongoClient.connect(url, (err, client) => {
   app.use("/api", router);
 
   //MIDDLE WARE-
-  router.use(function(req, res, next) {
+  router.use(function (req, res, next) {
     console.log("FYI...There is some processing currently going down");
     next();
   });
 
   // test route
-  router.get("/", function(req, res) {
+  router.get("/", function (req, res) {
     res.json({
       message: "Welcome !"
     });
@@ -47,7 +47,7 @@ MongoClient.connect(url, (err, client) => {
   // add inventory item to backend database
   router
     .route("/cash")
-    .post(function(req, res) {
+    .post(function (req, res) {
       var casht = new Details();
       casht.mobile_no = req.body.mobile_no;
       casht.inventory_name = req.body.inventory_name;
@@ -58,7 +58,7 @@ MongoClient.connect(url, (err, client) => {
       dbo
         .collection("inventory_details")
         .find({})
-        .toArray(function(err, result) {
+        .toArray(function (err, result) {
           if (err) {
             res.send(err);
           }
@@ -67,8 +67,8 @@ MongoClient.connect(url, (err, client) => {
           });
         });
     })
-    .get(function(req, res) {
-      Details.find(function(err, details) {
+    .get(function (req, res) {
+      Details.find(function (err, details) {
         if (err) {
           res.send(err);
         }
@@ -76,12 +76,11 @@ MongoClient.connect(url, (err, client) => {
       });
     });
 
-  router.route("/cash/mobile_no/:mobile_no").get(function(req, res) {
-    Details.find(
-      {
+  router.route("/cash/mobile_no/:mobile_no").get(function (req, res) {
+    Details.find({
         mobile_no: req.params.bname
       },
-      function(err, detail) {
+      function (err, detail) {
         if (err) {
           res.send(err);
         }
